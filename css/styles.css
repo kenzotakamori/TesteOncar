@@ -84,6 +84,88 @@ header .teste a {
     padding-bottom: 10px;
 }
 
+#list-details .vehicles-list .buttons, #list-details .vehicles-details .buttons {
+    height: 70px;
+}
+
 .list-options {
     border: 1px solid #cfcfcf;
+}
+
+.option {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    height: 16.67%;
+}
+
+.option:nth-child(odd) {
+    background-color: #dfdfdf;
+}
+
+.option:nth-child(even) {
+    background-color: #fff;
+}
+
+.option .info {
+    padding-left: 20px;
+    line-height: 20px;
+    margin: auto 0 auto;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.option .info .model {
+    color: #292797;
+}
+
+.option .info .release-year {
+    font-weight: 100;
+}
+
+.option .edit {
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+    padding-right: 20px;
+}
+
+#list-details .details {
+    border-top: 1px solid #cfcfcf;
+    border-bottom: 1px solid #cfcfcf;
+}
+
+.details h3 {
+    font-weight: 1000;
+    color: #292797;
+}
+
+.details .brand-year {
+    display: grid;
+    grid-template-columns: 1fr 1fr;    
+}
+
+.details .brand-year .type {
+    font-weight: 100;
+    font-size: 0.8rem;
+    color: #aaaaaa;
+}
+
+.details .brand-year .value {
+    font-weight: 1000;
+    font-size: 1.2rem;
+}
+
+#list-details .buttons button {
+    border: none;
+    color: #fff;
+    height: 50px;
+    width: 150px;
+    font-size: 1.6rem;
+}
+
+#list-details .buttons .edit-button {
+    background-color: #292797;
+}
+#list-details .buttons .delete-button {
+    background-color: #bb2929;
 }
