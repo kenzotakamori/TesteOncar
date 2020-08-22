@@ -5,9 +5,12 @@
         <meta name="viewport" content="width=devide-width, initial-scale=1.0">
         <title>Teste Oncar</title>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script type="text/javascript" src="./main.js"></script>
-        <link rel="stylesheet" href="./css/styles.css">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="./css/styles.css">
     </head>
     <body>
         <header>
@@ -26,7 +29,7 @@
                         <button class="search-button">
                             <i class="fas fa-search"></i>
                         </button>
-                        <button class="add-vehicle">
+                        <button class="add-vehicle" data-toggle="modal" data-target="#detailModal">
                             <i class="fas fa-plus"></i>
                         </button>
                     </div>
@@ -36,68 +39,7 @@
                 <div class="container">
                     <div class="vehicles-list">
                         <h4>Lista de veículos</h4>
-                        <div class="list-options">
-                            <div class="option">
-                                <div class="info">
-                                    <span class="brand">FIAT</span><br>
-                                    <span class="model">Uno Vivace</span><br>
-                                    <span class="release-year">2015</span>
-                                </div>
-                                <div class="edit">
-                                    <i class="fas fa-edit"></i>
-                                </div>
-                            </div>
-                            <div class="option">
-                                <div class="info">
-                                    <span class="brand">FIAT</span><br>
-                                    <span class="model">Uno Vivace</span><br>
-                                    <span class="release-year">2015</span>
-                                </div>
-                                <div class="edit">
-                                    <i class="fas fa-edit"></i>
-                                </div>
-                            </div>
-                            <div class="option">
-                                <div class="info">
-                                    <span class="brand">FIAT</span><br>
-                                    <span class="model">Uno Vivace</span><br>
-                                    <span class="release-year">2015</span>
-                                </div>
-                                <div class="edit">
-                                    <i class="fas fa-edit"></i>
-                                </div>
-                            </div>
-                            <div class="option">
-                                <div class="info">
-                                    <span class="brand">FIAT</span><br>
-                                    <span class="model">Uno Vivace</span><br>
-                                    <span class="release-year">2015</span>
-                                </div>
-                                <div class="edit">
-                                    <i class="fas fa-edit"></i>
-                                </div>
-                            </div>
-                            <div class="option">
-                                <div class="info">
-                                    <span class="brand">FIAT</span><br>
-                                    <span class="model">Uno Vivace</span><br>
-                                    <span class="release-year">2015</span>
-                                </div>
-                                <div class="edit">
-                                    <i class="fas fa-edit"></i>
-                                </div>
-                            </div>
-                            <div class="option">
-                                <div class="info">
-                                    <span class="brand">FIAT</span><br>
-                                    <span class="model">Uno Vivace</span><br>
-                                    <span class="release-year">2015</span>
-                                </div>
-                                <div class="edit">
-                                    <i class="fas fa-edit"></i>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="list-options"></div>
                         <div class="buttons">
                             Teste
                         </div>
@@ -128,7 +70,7 @@
                             <button class="delete-button">
                                 <span>DELETAR</span>
                             </button>
-                            <button class="edit-button">
+                            <button class="edit-button" data-toggle="modal" data-target="#detailModal">
                                 <span>EDITAR</span>
                             </button>
                         </div>
@@ -136,5 +78,7 @@
                 </div>
             </section>
         </main>
+        <div class="edit-modal"></div>
+        <div class="delete-modal"></div>
     </body>
 </html>
