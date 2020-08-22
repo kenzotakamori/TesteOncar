@@ -2,17 +2,32 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title">Detalhes</h5>
             </div>
             <div class="modal-body">
-                <p>Modal body text goes here.</p>
+                <div class="vehicle-input">
+                    <label for="vehicle">Veículo</label><br>
+                    <input type="text" id="vehicle" name="vehicle" value="John"><br>
+                </div>
+                <div class="brand-input">
+                    <label for="brand">Marca</label><br>
+                    <input type="text" id="brand" name="brand" value="John"><br>
+                </div>
+                <div class="year-input">
+                    <label for="year">Ano</label><br>
+                    <input type="text" id="year" name="year" value="John"><br>
+                </div>
+                <div class="description-input">
+                    <label for="vehicle">Descrição</label><br>
+                    <input type="text" id="description" name="description" value="John"><br>
+                </div>
+                <div class="sold-input">
+                    <input type="checkbox" name="vendido" value="vendido">
+                    <label for="vendido">Vendido</label>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Salvar</button>
             </div>
         </div>
     </div>
