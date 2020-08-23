@@ -9,6 +9,7 @@ $(document).ready(function(){
         getAvailableVehicles();
         addFunctionToButtons();
         addModalReferences();
+        addFunctionModals();
     }
 
     var vehicleTemplate;
@@ -81,37 +82,53 @@ $(document).ready(function(){
         addSearchButtonFunction();
         setNewVehicleModal();
         setVehicleModal();
-        addDeleteVehicleFunction();
+        addSaveButtonFunction();
+        addDeleteButtonFunction();
     }
 
     function addSearchButtonFunction() {
         $(".search-button").click(function() {
-            //get input
-            console.log('search added')
-            let str;
-            filterResultsByString(str);
+            let str = $('.search').val();
+            vehiclesToBeShown = filterResultsByString(str);
+            resetResults();
         });
     }
 
     function setNewVehicleModal() {
         $(".add-vehicle").click(function() {
-            //limpar campos
+            setValuesModal({});
         });
     }
 
     function setVehicleModal() {
-        // usar selected modal
+        $('.edit-button').click(function(){
+            setValuesModal(selectedVehicle);
+        });
+    }
+
+    function setValuesModal(item) {
+        $('input[name="vehicle"]').val(item.veiculo);
+        $('input[name="brand"]').val(item.marca);
+        $('input[name="year"]').val(item.ano);
+        $('textarea').val(item.descricao);
+        $('input[name="vendido"]').val(item.vendido);
+    }
+
+    function addSaveButtonFunction() {
+        $('.save-edits').click(function(){
+            //TODO
+        });
+    }
+
+    function addDeleteButtonFunction() {
+        $('.delete-vehicle').click(function(){
+            //TODO
+        });
     }
 
     function addModalReferences() {
         $(".edit-modal").load('templates/add-edit-vehicle-modal.html');
         $(".delete-modal").load('templates/delete-vehicle-modal.html');
-    }
-
-    function addDeleteVehicleFunction() {
-        $(".edit-button").click(function() {
-            //TODO
-        });
     }
 
     function filterResultsByString(str) {
@@ -127,6 +144,21 @@ $(document).ready(function(){
 
     function firstStringContainsSecond (first, second) {
         return first.indexOf(second) >= 0;
+    }
+    
+    function resetResults() {
+        selectedVehicle = {};
+        mountVehiclesList();
+        hideVehicleDetails();
+    }
+
+    function hideVehicleDetails() {
+        if ($('.not-selected').hasClass('inactive')) {
+            $('.details').addClass('inactive');
+            $('.not-selected').removeClass('inactive');
+            $('.delete-button').prop("disabled", true);
+            $('.edit-button').prop("disabled", true);
+        }
     }
 
     init();

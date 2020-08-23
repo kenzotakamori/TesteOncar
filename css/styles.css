@@ -252,7 +252,7 @@ header .teste a {
     margin-bottom: 0;
 }
 
-#detailModal input {
+#detailModal input, #detailModal textarea {
     margin-bottom: 1rem;
 }
 
