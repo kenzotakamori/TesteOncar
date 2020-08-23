@@ -2,7 +2,7 @@ $(document).ready(function(){
     const url = 'http://127.0.0.1:3000/';
     var availableVehicles = [];
     var vehiclesToBeShown = [];
-    var selectedVehicle = { id: null };
+    var selectedVehicle = {};
 
     function init() {
         getVehicleTemplate();
@@ -56,6 +56,7 @@ $(document).ready(function(){
                 return id == item.id;
             })[0];
             mountVehicleDetails();
+            showVehicleDetails();
         })
     }
 
@@ -67,6 +68,14 @@ $(document).ready(function(){
         $('.details').find('p').text(v.descricao);
     }
 
+    function showVehicleDetails() {
+        if ($('.details').hasClass('inactive')) {
+            $('.details').removeClass('inactive');
+            $('.not-selected').addClass('inactive');
+            $('.delete-button').prop("disabled", false);
+            $('.edit-button').prop("disabled", false);
+        }
+    }
 
     function addFunctionToButtons() {
         addSearchButtonFunction();
