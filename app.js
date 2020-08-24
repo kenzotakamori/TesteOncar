@@ -39,7 +39,7 @@ app.get('/api/veiculos/:id', (req, res) => {
             }
             res.send(data);
         }, (err) => {
-            throw err;
+            res.send(err);
         });
 });
 
@@ -62,7 +62,7 @@ app.put('/api/veiculos/:id', (req, res) => {
         .update(req.body)
         .then((data) => {
             if(!data) {
-                return res.status(404).send('Vaículo não encontrado');
+                return res.status(404).send('Veículo não encontrado');
             }
             res.send(req.body);
         }, (err) => {
@@ -79,7 +79,7 @@ app.delete('/api/veiculos/:id', (req, res) => {
         .delete(req.body)
         .then((data) => {
             if(!data) {
-                return res.status(404).send('Vaículo não encontrado');
+                return res.status(404).send('Veículo não encontrado');
             }
             res.send(req.body);
         }, (err) => {
