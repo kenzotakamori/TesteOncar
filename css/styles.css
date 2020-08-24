@@ -108,7 +108,12 @@ header .teste a {
 .vehicles-list .buttons button {
     background: none;
     border: none;
+    color: #646464;
+}
+
+.vehicles-list .buttons button[disabled] {
     color: #cfcfcf;
+    cursor: default;
 }
 
 .list-options {

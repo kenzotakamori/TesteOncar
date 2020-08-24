@@ -33,6 +33,7 @@ $(document).ready(function(){
             $('.list-options').append(tile);
         });
         selectVehicleOnClick();
+        setPagination();
     }
 
     function clearListOptions() {
@@ -77,17 +78,96 @@ $(document).ready(function(){
         }
     }
 
+    var firstPage = 0;
+    var lastPage;
+    var currentPage;
+    function setPagination() {
+        currentPage = 0;
+        divideItemsInPages();
+        disableButtons();
+    }
+
+    function divideItemsInPages() {
+        let page = 0;
+        let count = 0;
+        $(".list-options .option").each(function(index) {
+            $(this).attr("page", page);
+            if (page > 0) {
+                $(this).addClass("inactive");
+            }
+            if (index == $(".list-options .option").length - 1) {
+                lastPage = page;
+            }
+            count++;
+            if (count >= 6) {
+                page++;
+                count = 0;
+            }
+        })
+    }
+
+    function disableButtons() {
+        let shouldPreviousBeDisabled = (lastPage == firstPage || currentPage == firstPage);
+        $(".first-page").prop("disabled", shouldPreviousBeDisabled);
+        $(".previous-page").prop("disabled", shouldPreviousBeDisabled);
+
+        let shouldNextBeDisabled = (lastPage == firstPage || currentPage == lastPage);
+        $(".next-page").prop("disabled", shouldNextBeDisabled);
+        $(".last-page").prop("disabled", shouldNextBeDisabled);
+    }
+
+    function addActionToNavButtons() {
+        navButton('.first-page');
+        navButton('.previous-page');
+        navButton('.next-page');
+        navButton('.last-page');
+    }
+
+    function navButton(but) {
+        $(but).click(function() {
+            let target;
+            switch(but) {
+                case '.first-page': 
+                    target = firstPage; 
+                    break;
+                case '.previous-page': 
+                    target = currentPage - 1; 
+                    break;
+                case '.next-page': 
+                    target = currentPage + 1; 
+                    break;
+                case '.last-page': 
+                    target = lastPage; 
+                    break;
+            }
+            addInactiveClass(currentPage);
+            currentPage = target;
+            removeInactiveClass(target);
+            disableButtons();
+        })
+    }
+
+    function addInactiveClass(page) {
+        $('.option[page="' + page + '"]').addClass('inactive');
+    }
+
+    function removeInactiveClass(page) {
+        $('.option[page="' + page + '"]').removeClass('inactive');
+    }
+    
     function addFunctionToButtons() {
         addSearchButtonFunction();
         setNewVehicleModal();
         setVehicleModal();
+        addActionToNavButtons();
     }
 
     function addSearchButtonFunction() {
         $(".search-button").click(function() {
             let str = $('.search').val();
             vehiclesToBeShown = filterResultsByString(str);
-            resetResults();
+            mountVehiclesList();
+            hideVehicleDetails();
         });
     }
 
@@ -149,7 +229,7 @@ $(document).ready(function(){
             marca: $('input[name="brand"]').val(),
             ano: $('input[name="year"]').val(),
             descricao: $('textarea').val(),
-            vendido: false,
+            vendido: $('input[name="vendido"]:checked').val(),
             created: '2020-08-23 13:00:00',
             updated: '2020-08-23 13:00:00'
         };
@@ -218,6 +298,7 @@ $(document).ready(function(){
     }
 
     function hideVehicleDetails() {
+        selectedVehicle = {};
         if ($('.not-selected').hasClass('inactive')) {
             $('.details').addClass('inactive');
             $('.not-selected').removeClass('inactive');
@@ -229,8 +310,8 @@ $(document).ready(function(){
     function filterResultsByString(str) {
         if(str) {
             return availableVehicles.filter(function(item) {
-                return firstStringContainsSecond(item.marca, str) || firstStringContainsSecond(item.modelo, str)
-                    || firstStringContainsSecond(item.marca, str) 
+                return firstStringContainsSecond(item.marca, str) || firstStringContainsSecond(item.veiculo, str)
+                    || firstStringContainsSecond(item.ano.toString(), str) 
             })
         } else {
             return availableVehicles;
@@ -238,7 +319,7 @@ $(document).ready(function(){
     }
 
     function firstStringContainsSecond (first, second) {
-        return first.indexOf(second) >= 0;
+        return first.toUpperCase().indexOf(second.toUpperCase()) >= 0;
     }
 
     init();
