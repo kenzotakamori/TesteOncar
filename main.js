@@ -6,16 +6,15 @@ $(document).ready(function(){
 
     function init() {
         getVehicleTemplate();
-        getAvailableVehicles();
-        addFunctionToButtons();
         addModalReferences();
-        addFunctionModals();
+        addFunctionToButtons();
     }
 
     var vehicleTemplate;
     function getVehicleTemplate() {
         $.get("templates/vehicle-tile.html", function(data){
             vehicleTemplate = data;
+            getAvailableVehicles();
         });
     }
 
@@ -82,8 +81,6 @@ $(document).ready(function(){
         addSearchButtonFunction();
         setNewVehicleModal();
         setVehicleModal();
-        addSaveButtonFunction();
-        addDeleteButtonFunction();
     }
 
     function addSearchButtonFunction() {
@@ -97,12 +94,14 @@ $(document).ready(function(){
     function setNewVehicleModal() {
         $(".add-vehicle").click(function() {
             setValuesModal({});
+            $('#detailModal').attr('tag', 'POST');
         });
     }
 
     function setVehicleModal() {
         $('.edit-button').click(function(){
             setValuesModal(selectedVehicle);
+            $('#detailModal').attr('tag', 'PUT');
         });
     }
 
@@ -114,21 +113,117 @@ $(document).ready(function(){
         $('input[name="vendido"]').val(item.vendido);
     }
 
+    function addModalReferences() {
+        $(".edit-modal").load('templates/add-edit-vehicle-modal.html', function(){
+            addSaveButtonFunction();
+        });
+        $(".delete-modal").load('templates/delete-vehicle-modal.html', function(){
+            addDeleteButtonFunction();
+        });
+    }
+    
+    var errorMessage = '';
     function addSaveButtonFunction() {
         $('.save-edits').click(function(){
-            //TODO
+            let tag = $('#detailModal').attr('tag');
+            let body = getRequestBody();
+            let valid = isRequestBodyValid(body);
+            if (!valid) {
+                displayErrorMessage();
+                return
+            }
+            let urlRequest;
+            if (tag === "POST") {
+                urlRequest = url + 'api/veiculos';
+                postOrPutRequest(tag, body, urlRequest);            
+            } else if (tag === "PUT") {
+                urlRequest = url + 'api/veiculos/' + selectedVehicle.id;
+                postOrPutRequest(tag, body, urlRequest);
+            }
+        });
+    }
+
+    function getRequestBody() {
+        let body = {
+            veiculo: $('input[name="vehicle"]').val(),
+            marca: $('input[name="brand"]').val(),
+            ano: $('input[name="year"]').val(),
+            descricao: $('textarea').val(),
+            vendido: false,
+            created: '2020-08-23 13:00:00',
+            updated: '2020-08-23 13:00:00'
+        };
+        return body;
+    }
+
+    function isRequestBodyValid(body) {
+        if (body.veiculo.length < 3) {
+            errorMessage = 'VEÍCULO deve ter ao menos 3 caracteres.';
+            return false;
+        }
+
+        if (body.marca.length < 3) {
+            errorMessage = 'MARCA deve ter ao menos 3 caracteres.';
+            return false;
+        }
+
+        if (body.ano < 1000 || body.ano > 2020) {
+            errorMessage = 'ANO inválido.';
+            return false;
+        }
+
+        if (body.descricao.length < 30) {
+            errorMessage = 'Descrição deve ter ao menos 30 caracteres.';
+            return false;
+        }
+        return true;
+    }
+
+    function displayErrorMessage() {
+        $('#detailModal').find('p').text(errorMessage);
+    }
+
+    function postOrPutRequest(tag, body, urlRequest) {
+        $.ajax({
+            type: tag,
+            url: urlRequest,
+            data: JSON.stringify(body),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function() {
+                $('#detailModal').modal('hide');
+                resetResults();
+            }
         });
     }
 
     function addDeleteButtonFunction() {
         $('.delete-vehicle').click(function(){
-            //TODO
+            let id = selectedVehicle.id;
+            let deleteUrl = url + 'api/veiculos/' + id;
+            $.ajax({
+                url: deleteUrl,
+                type: 'DELETE',
+                success: function() {
+                    $('#detailModal').modal('hide');
+                    resetResults();
+                }
+            })
         });
     }
 
-    function addModalReferences() {
-        $(".edit-modal").load('templates/add-edit-vehicle-modal.html');
-        $(".delete-modal").load('templates/delete-vehicle-modal.html');
+    function resetResults() {
+        getAvailableVehicles();
+        hideVehicleDetails();
+    }
+
+    function hideVehicleDetails() {
+        if ($('.not-selected').hasClass('inactive')) {
+            $('.details').addClass('inactive');
+            $('.not-selected').removeClass('inactive');
+            $('.delete-button').prop("disabled", true);
+            $('.edit-button').prop("disabled", true);
+        }
     }
 
     function filterResultsByString(str) {
@@ -144,21 +239,6 @@ $(document).ready(function(){
 
     function firstStringContainsSecond (first, second) {
         return first.indexOf(second) >= 0;
-    }
-    
-    function resetResults() {
-        selectedVehicle = {};
-        mountVehiclesList();
-        hideVehicleDetails();
-    }
-
-    function hideVehicleDetails() {
-        if ($('.not-selected').hasClass('inactive')) {
-            $('.details').addClass('inactive');
-            $('.not-selected').removeClass('inactive');
-            $('.delete-button').prop("disabled", true);
-            $('.edit-button').prop("disabled", true);
-        }
     }
 
     init();
